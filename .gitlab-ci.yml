@@ -10,8 +10,14 @@ build:
     GRPC_VERSION: "1.35"
     GRPC_WEB_VERSION: "1.2.1"
     BUF_VERSION: "0.36.0"
+    BUILD_VERSION: "0"
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    
     - /kaniko/executor --cache=true --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA --build-arg grpc=${GRPC_VERSION} --build-arg grpc_web=${GRPC_WEB_VERSION} --build-arg buf_version=${BUF_VERSION}
+     -t registry.gitlab.com/imerkle/grpckit:${GRPC_VERSION}_${BUILD_VERSION} --target grpckit
+
+    - /kaniko/executor --cache=true --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA --build-arg grpc=${GRPC_VERSION} --build-arg grpc_web=${GRPC_WEB_VERSION} --build-arg buf_version=${BUF_VERSION}
+     -t registry.gitlab.com/imerkle/omniproto:${GRPC_VERSION}_${BUILD_VERSION} --target omniproto
   only:
     - master
