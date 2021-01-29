@@ -6,9 +6,19 @@ build:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
+  variables:
+    GRPC_VERSION: "1.35"
+    GRPC_WEB_VERSION: "1.2.1"
+    BUF_VERSION: "0.36.0"
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --cache=true  --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/accounts/Dockerfile --destination $CI_REGISTRY_IMAGE/accounts:$CI_COMMIT_SHORT_SHA
-    - /kaniko/executor --cache=true  --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/emails/Dockerfile --destination $CI_REGISTRY_IMAGE/emails:$CI_COMMIT_SHORT_SHA
+    - /kaniko/executor \
+      --cache=true \
+      --context $CI_PROJECT_DIR \
+      --dockerfile $CI_PROJECT_DIR/Dockerfile \
+      --destination $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA \
+      --build-arg grpc=${GRPC_VERSION} \
+      --build-arg grpc_web=${GRPC_WEB_VERSION} \
+      --build-arg buf_version=${BUF_VERSION}
   only:
     - master
