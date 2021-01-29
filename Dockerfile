@@ -86,6 +86,10 @@ RUN curl -sSL https://github.com/grpc/grpc-web/releases/download/${grpc_web}/pro
     -o /tmp/grpc_web_plugin && \
     chmod +x /tmp/grpc_web_plugin
 
+# Add rust support
+RUN curl https://sh.rustup.rs -sSf | sh
+RUN cargo install protoc-gen-rust
+
 FROM debian:$debian-slim AS grpckit
 
 RUN mkdir -p /usr/share/man/man1
@@ -110,6 +114,7 @@ COPY --from=build /opt/share/ /usr/local/share/
 COPY --from=build /go/bin/ /usr/local/bin/
 COPY --from=build /tmp/grpc_web_plugin /usr/local/bin/protoc-gen-grpc-web
 COPY --from=build /usr/local/bin/buf /usr/local/bin/buf
+COPY --from=build $HOME/.cargo/bin/protoc-gen-rust /usr/local/bin/protoc-gen-rust
 
 # NB(MLH) We shouldn't need to copy these to include, as protofiles should be sourced elsewhere
 # COPY --from=build /go/src/github.com/envoyproxy/protoc-gen-validate/ /opt/include/github.com/envoyproxy/protoc-gen-validate/
