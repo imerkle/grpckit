@@ -87,7 +87,7 @@ RUN curl -sSL https://github.com/grpc/grpc-web/releases/download/${grpc_web}/pro
     chmod +x /tmp/grpc_web_plugin
 
 # Add rust support
-RUN curl https://sh.rustup.rs -sSf | sh
+RUN curl https://sh.rustup.rs -sSf | sh -y
 RUN cargo install protoc-gen-rust
 
 FROM debian:$debian-slim AS grpckit
