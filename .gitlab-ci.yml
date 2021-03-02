@@ -14,7 +14,7 @@ build:
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
 
-    - /kaniko/executor --cache=true --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:latest --build-arg grpc=${GRPC_VERSION} --build-arg grpc_web=${GRPC_WEB_VERSION} --build-arg buf_version=${BUF_VERSION}
+    - /kaniko/executor --cache=true --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:latest --build-arg grpc=${GRPC_VERSION} --build-arg grpc_web=${GRPC_WEB_VERSION} --build-arg buf_version=${BUF_VERSION}
       --target grpckit
   only:
     - master
