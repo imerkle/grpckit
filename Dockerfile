@@ -4,7 +4,7 @@ ARG grpc=1.35
 ARG buf_version=0.36.0
 ARG grpc_web=1.2.1
 
-FROM  grpckit/grpckit:1.35_0 AS grpckitbuild
+FROM  namely/protoc-all AS grpckitbuild
 
 
 FROM thethingsindustries/protoc AS thethingsindustriesprotoc
@@ -37,11 +37,11 @@ FROM grpckit AS protoc
 ENTRYPOINT [ "protoc" ]
 
 # buf
-FROM grpckit AS buf
-ENTRYPOINT [ "buf" ]
+#FROM grpckit AS buf
+#ENTRYPOINT [ "buf" ]
 
 # omnikit
-FROM grpckit AS omniproto
-ENTRYPOINT [ "omniproto" ]
+#FROM grpckit AS omniproto
+#ENTRYPOINT [ "omniproto" ]
 
 FROM grpckit
