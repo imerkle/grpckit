@@ -27,6 +27,7 @@ COPY --from=grpckitbuild /usr/local/bin/ /usr/local/bin/
 COPY --from=grpckitbuild /usr/local/include/ /usr/local/include/
 COPY --from=grpckitbuild /usr/local/lib/ /usr/local/lib/
 COPY --from=grpckitbuild /usr/local/share/ /usr/local/share/
+COPY --from=grpckitbuild /opt/include/google /usr/local/include/google
 COPY --from=rustdocker /usr/local/cargo/bin/protoc-gen-rust /usr/local/bin/protoc-gen-rust
 # NB(MLH) We shouldn't need to copy these to include, as protofiles should be sourced elsewhere
 # COPY --from=build /go/src/github.com/envoyproxy/protoc-gen-validate/ /opt/include/github.com/envoyproxy/protoc-gen-validate/
